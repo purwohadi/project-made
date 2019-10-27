@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Katalog FIlm</string>
+
+    <string name="name_movie">Nama Film</string>
+    <string name="overview">Ikhtisar</string>
+    <string name="release">Release Information</string>
+
+    <string name="setting">Ubah Language</string>
+    <string name="tab_movie">Film</string>
+    <string name="tab_tv">Acara Tv</string>
+
+    <string name="retry">Muat Ulang</string>
+    <string name="check_connection">Periksa koneksi internet anda</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello fagment kosong</string>
+</resources>
