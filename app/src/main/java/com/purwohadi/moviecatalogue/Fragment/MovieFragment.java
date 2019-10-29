@@ -2,11 +2,14 @@ package com.purwohadi.moviecatalogue.Fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +39,7 @@ public class MovieFragment extends Fragment {
 
     RecyclerView rv_movie;
     MovieAdapter movieAdapter;
+    public static final String KEY_MOVIES = "movies";
 
     private ProgressBar progressBar;
     private Button button;
@@ -46,20 +50,36 @@ public class MovieFragment extends Fragment {
         // Required empty public constructor
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_movie, container, false);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         button = view.findViewById(R.id.retry);
         progressBar = view.findViewById(R.id.pb_movie);
 
         rv_movie = view.findViewById(R.id.rv_movie);
         rv_movie.setLayoutManager(new LinearLayoutManager(getActivity()));
-        getData();
 
-        return view;
+
+
+        Log.d("movie fragment","====savedInstanceState===="+savedInstanceState);
+        if (savedInstanceState == null) {
+            getData();
+        } else {
+            movieList = savedInstanceState.getParcelableArrayList(KEY_MOVIES);
+            Log.d("movie adapter","====items===="+movieList);
+            movieAdapter.refill(movieList);
+        }
+
     }
 
     private void getData() {
@@ -104,5 +124,12 @@ public class MovieFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelableArrayList(KEY_MOVIES, movieList);
+        super.onSaveInstanceState(outState);
+    }
+
 
 }

@@ -84,9 +84,6 @@ public class Tv implements Parcelable {
         dest.writeString(this.tanggalRilis);
     }
 
-    public Tv() {
-    }
-
     protected Tv(Parcel in) {
         this.photo = in.readString();
         this.judul = in.readString();

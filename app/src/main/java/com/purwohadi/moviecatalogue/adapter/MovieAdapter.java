@@ -2,6 +2,7 @@ package com.purwohadi.moviecatalogue.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,30 +12,38 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.purwohadi.moviecatalogue.DetailActivity;
+import com.purwohadi.moviecatalogue.GlideApp;
 import com.purwohadi.moviecatalogue.R;
 import com.purwohadi.moviecatalogue.model.Movie;
-import com.purwohadi.moviecatalogue.model.MovieModel;
 
 import java.util.ArrayList;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
     private Context context;
-    private ArrayList<MovieModel> movieList = new ArrayList<>();
+    private ArrayList<Movie> movieList = new ArrayList<>();
+    private ArrayList<Movie> items;
 
     public MovieAdapter(Context context) {
 
         this.context = context;
     }
 
-    public ArrayList<MovieModel> getMovieList() {
+    public ArrayList<Movie> getMovieList() {
         return movieList;
     }
 
-    public void setMovieList(ArrayList<MovieModel> movieList) {
+    public void setMovieList(ArrayList<Movie> movieList) {
         this.movieList = movieList;
+    }
+
+    public void refill(ArrayList<Movie> items) {
+        Log.d("movie adapter","====items===="+items);
+        this.items = new ArrayList<>();
+        this.items.addAll(items);
+
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -46,11 +55,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MovieAdapter.MovieViewHolder movieViewHolder, int i) {
-        MovieModel movie = getMovieList().get(i);
+        Movie movie = getMovieList().get(i);
         movieViewHolder.txtJudul.setText(movie.getJudul());
         movieViewHolder.txtDescription.setText(movie.getDescription());
 
-        Glide.with(context)
+        GlideApp.with(context)
                 .load("https://image.tmdb.org/t/p/w185/"+movieList.get(i).getPhoto())
                 .into(movieViewHolder.imgPhoto);
     }

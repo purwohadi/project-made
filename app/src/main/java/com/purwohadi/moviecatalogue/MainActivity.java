@@ -1,11 +1,12 @@
 package com.purwohadi.moviecatalogue;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.google.android.material.tabs.TabLayout;
@@ -13,14 +14,16 @@ import com.purwohadi.moviecatalogue.Fragment.MovieFragment;
 import com.purwohadi.moviecatalogue.Fragment.TvFragment;
 import com.purwohadi.moviecatalogue.adapter.TabPagerAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseAppCompatActivity {
+    private ViewPager viewPager;
+
+    private Fragment pageContent = new MovieFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ViewPager viewPager = findViewById(R.id.viewpager);
         TabLayout tabLayout = findViewById(R.id.tablayout);
 
         TabPagerAdapter tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         tabPagerAdapter.addFragment(new MovieFragment(), getString(R.string.tab_movie));
         tabPagerAdapter.addFragment(new TvFragment(), getString(R.string.tab_tv));
 
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(tabPagerAdapter);
 
         tabLayout.setupWithViewPager(viewPager);
@@ -46,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, pageContent).commit();
+        } else {
+            pageContent = getSupportFragmentManager().getFragment(savedInstanceState, KEY_FRAGMENT);
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, pageContent).commit();
+        }
     }
 
     @Override
@@ -61,5 +73,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(mIntent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        getSupportFragmentManager().putFragment(savedInstanceState, KEY_FRAGMENT, pageContent);
+        super.onSaveInstanceState(savedInstanceState);
     }
 }

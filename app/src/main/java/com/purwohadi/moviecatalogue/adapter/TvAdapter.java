@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.purwohadi.moviecatalogue.DetailTvActivity;
+import com.purwohadi.moviecatalogue.GlideApp;
 import com.purwohadi.moviecatalogue.R;
 import com.purwohadi.moviecatalogue.model.Tv;
 
@@ -48,7 +49,7 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvViewHolder> {
         movieViewHolder.txtJudul.setText(tv.getJudul());
         movieViewHolder.txtDescription.setText(tv.getDescription()+" ");
 
-        Glide.with(context)
+        GlideApp.with(context)
                 .load("https://image.tmdb.org/t/p/w185/"+tvList.get(i).getPhoto())
                 .into(movieViewHolder.imgPhoto);
     }

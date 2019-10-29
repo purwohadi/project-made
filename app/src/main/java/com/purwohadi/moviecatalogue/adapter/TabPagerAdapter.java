@@ -1,5 +1,7 @@
 package com.purwohadi.moviecatalogue.adapter;
 
+import android.os.Parcelable;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -33,4 +35,12 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return mFragmentList.size();
     }
+
+
+    @Override
+    public Parcelable saveState() {
+        return null;
+    }
+
+
 }

@@ -81,8 +81,6 @@ public class Movie implements Parcelable {
         dest.writeString(this.tanggalRilis);
     }
 
-    public Movie() {
-    }
 
     protected Movie(Parcel in) {
         this.photo = in.readString();
