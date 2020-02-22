@@ -40,6 +40,11 @@ public class MainActivity extends BaseAppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                Log.d("main activity","====position===="+tab.getPosition());
+                //CURRENT_POSITION_KEY = tab.getPosition();
+                Log.d("main activity","====tab position===="+tab.getPosition());
+                Log.d("main activity","====tab position===="+tab.getText());
+
             }
 
             @Override

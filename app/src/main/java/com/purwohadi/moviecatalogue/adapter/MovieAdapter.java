@@ -2,7 +2,6 @@ package com.purwohadi.moviecatalogue.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     private Context context;
     private ArrayList<Movie> movieList = new ArrayList<>();
-    private ArrayList<Movie> items;
 
     public MovieAdapter(Context context) {
 
@@ -36,14 +34,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     public void setMovieList(ArrayList<Movie> movieList) {
         this.movieList = movieList;
-    }
-
-    public void refill(ArrayList<Movie> items) {
-        Log.d("movie adapter","====items===="+items);
-        this.items = new ArrayList<>();
-        this.items.addAll(items);
-
-        notifyDataSetChanged();
     }
 
     @NonNull
