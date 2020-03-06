@@ -15,4 +15,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello fagment kosong</string>
+
+    <string name="title_home">Beranda</string>
+    <string name="image_poster">Gambar Poster</string>
+    <string name="date_relealesed">waktu_tayang</string>
+    <string name="star_icon">star_icon</string>
+    <string name="vote_average">Rata - rata suara</string>
+    <string name="timer_icon">timer_icon</string>
+    <string name="vote_count">Perhitungan Suara</string>
+    <string name="change_language_settings">Konfigurasi Bahasa</string>
 </resources>

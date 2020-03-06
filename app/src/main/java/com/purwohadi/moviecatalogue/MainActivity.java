@@ -1,5 +1,7 @@
 package com.purwohadi.moviecatalogue;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -9,80 +11,66 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.purwohadi.moviecatalogue.Fragment.MovieFragment;
+import com.purwohadi.moviecatalogue.Fragment.MoviesFragment;
+import com.purwohadi.moviecatalogue.Fragment.TVShowFragment;
 import com.purwohadi.moviecatalogue.Fragment.TvFragment;
 import com.purwohadi.moviecatalogue.adapter.TabPagerAdapter;
 
-public class MainActivity extends BaseAppCompatActivity {
-    private ViewPager viewPager;
+public class MainActivity extends AppCompatActivity  {
+    private BottomNavigationView.OnNavigationItemSelectedListener   mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-    private Fragment pageContent = new MovieFragment();
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment fragment;
+
+            switch (item.getItemId()) {
+                case R.id.navigation_movies:
+                    fragment = new MoviesFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
+                            .commit();
+                    return true;
+                case R.id.navigation_tvshow:
+                    fragment = new TVShowFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
+                            .commit();
+                    return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        TabLayout tabLayout = findViewById(R.id.tablayout);
-
-        TabPagerAdapter tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
-
-        /*set page title*/
-        tabPagerAdapter.addFragment(new MovieFragment(), getString(R.string.tab_movie));
-        tabPagerAdapter.addFragment(new TvFragment(), getString(R.string.tab_tv));
-
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(tabPagerAdapter);
-
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-                Log.d("main activity","====position===="+tab.getPosition());
-                //CURRENT_POSITION_KEY = tab.getPosition();
-                Log.d("main activity","====tab position===="+tab.getPosition());
-                Log.d("main activity","====tab position===="+tab.getText());
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, pageContent).commit();
-        } else {
-            pageContent = getSupportFragmentManager().getFragment(savedInstanceState, KEY_FRAGMENT);
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, pageContent).commit();
+        if (savedInstanceState == null){
+            navView.setSelectedItemId(R.id.navigation_movies);
         }
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.setting, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.settings){
+        if (item.getItemId() == R.id.action_change_settings) {
             Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
             startActivity(mIntent);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        getSupportFragmentManager().putFragment(savedInstanceState, KEY_FRAGMENT, pageContent);
-        super.onSaveInstanceState(savedInstanceState);
     }
 }
